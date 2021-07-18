@@ -1,0 +1,51 @@
+<div class="card card-custom">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label" *ngIf="manga > 1, else multipleDelete ">Suppression de <span class="text-primary">{{manga}}</span> utilisateurs </h3>
+      <ng-template #multipleDelete>
+        <h3 class="card-label">Suppression du manga <span class="text-primary">{{manga.name}}</span> de votre bibliothèque</h3>
+      </ng-template>
+    </div>
+  </div>
+  <div class="form">
+    <div class="card-body" *ngIf="manga.name !=='admin', else elseBlock ">
+        <div class="form-group row" *ngIf="manga > 1, else bodyDelete">
+          <div class="col-lg-12">Etes-vous sûr de vouloir supprimer ces {{manga}} manga ?</div>
+        </div>
+        <ng-template #bodyDelete>
+          <div class="form-group row">
+            <div class="col-lg-12">Etes-vous sûr de vouloir supprimer ce manga? Vous perdrez toutes vos notes et status associés</div>
+          </div>
+        </ng-template>
+    </div>
+    <div class="card-footer" *ngIf="manga.name !=='admin'">
+        <div class="d-flex justify-content-between">
+            <div>
+              <button mat-stroked-button color="primary" class="mat-focus-indicator mat-button mat-button-base" (click)="onConfirm()">
+                <span class="mat-button-wrapper">Confirmer</span>
+              </button>
+              &nbsp;
+              <button mat-stroked-button color="warn" (click)="onDismiss()">
+                <span class="mat-button-wrapper" >Annuler</span>
+              </button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <ng-template #elseBlock>
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-lg-12">L'administrateur ne peut pas être supprimé !
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-between">
+          <div></div>
+            <button mat-stroked-button color="warn" (click)="onDismiss()">
+              <span class="mat-button-wrapper" >Annuler</span>
+            </button>
+          </div>
+      </div>
+  </ng-template>
+</div>

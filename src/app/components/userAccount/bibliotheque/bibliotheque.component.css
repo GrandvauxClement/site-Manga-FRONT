@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+.mat-dialog-container{
+  overflow: hidden !important;
+}
+
+.mat-dialog-content {
+  display: block;
+  margin: 0;
+  padding: 24px;
+  max-height: 65vh;
+  min-width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mat-row:hover {
+  background-color: #f8f9fa;
+}
+.myColorBlue{
+  color: #3f51b5;
+}
+.selectStyleWidth{
+  width: 100px !important;
+}

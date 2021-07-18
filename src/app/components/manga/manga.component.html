@@ -1,0 +1,147 @@
+
+<div class="container mt-2">
+  <div class="row justify-content-center" *ngIf="isLoading">
+    <h2 class="text-center myColorBlue">En cours de Chargement ...</h2>
+    <mat-spinner></mat-spinner>
+
+  </div>
+  <div *ngIf="!isLoading">
+    <h2 class="myColorBlue text-center">Bienvenue sur l'encyclopédie des Mangas et Animés, où vous pouvez découvrir plein de mangas. N'hésitez pas a utilisez les filtres mis à disposition pour affiner votre recherche et trouver des mangas qui vous correspond. </h2>
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <mat-select [(ngModel)]="filterTypeSelected">
+            <mat-option *ngFor="let filterTypeDetail of filterType" [value]="filterTypeDetail" (click)="FilterBarSearch()">{{filterTypeDetail}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col d-flex justify-content-center">
+        <mat-form-field appearance="outline">
+          <mat-label>Style</mat-label>
+          <mat-select [(ngModel)]="filterStyleSelected">
+            <mat-option *ngFor="let filterStyleDetail of filterStyle" [value]="filterStyleDetail" (click)="FilterBarSearch()">{{filterStyleDetail}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col d-flex justify-content-center">
+        <mat-form-field appearance="outline">
+          <mat-label>Genre</mat-label>
+          <mat-select [(ngModel)]="filterGenreSelected">
+            <mat-option *ngFor="let filterGenreDetail of filterGenre" [value]="filterGenreDetail" (click)="FilterBarSearch()">{{filterGenreDetail}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row ">
+      <ul class="d-flex justify-content-center col-12 flex-wrap" id="alphabet-filter">
+        <li *ngFor="let letter of alphabet" (click)="FilterByLetter(letter)" class="ml-2">
+          <strong *ngIf="letterSelected == letter" class="liSelected"> {{letter}}</strong>
+          <span *ngIf="letterSelected != letter"> {{letter}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="row" >
+      <div class="col-xl-4 col-md-6 col-12 mt-3" *ngFor="let mangaDetail of manga">
+        <mat-card class="example-card d-flex flex-column align-items-center">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title class="text-center myColorBlue">{{mangaDetail.name}}</mat-card-title>
+            <!--                   <mat-card-subtitle>Dog Breed</mat-card-subtitle>-->
+          </mat-card-header>
+          <img mat-card-image src="http://127.0.0.1:8000/images/{{mangaDetail.image[0]}}" class="img-fluid" alt="image manga" style="height: 15em; width: 15em">
+          <mat-card-content>
+            <p>
+              {{mangaDetail.presentation.substring(0,115)}} [...]
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="d-flex">
+
+              <button mat-fab color="primary" aria-label="detail icon" [routerLink]="['/manga-detail', mangaDetail.id]" matTooltip="Détail" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3">
+                <mat-icon>search</mat-icon>
+              </button>
+
+              <button *ngIf="user == null" mat-fab color="primary" aria-label="like icon" matTooltip="Connectez-vous pour profiter des fonctionnalitées" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3" (click)="openDialog()">
+                <mat-icon>favorite_border</mat-icon>
+              </button>
+              <div *ngIf="user != null">
+                <button [ngClass]="!userLike[mangaDetail.id] ? 'd-block' : 'd-none'" (click)="AddInMangaLike(mangaDetail.id); userLike[mangaDetail.id] = mangaDetail.id" mat-fab color="primary" aria-label="like icon" matTooltip="Ajouter aux favoris" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3">
+                  <mat-icon>favorite_border</mat-icon>
+                </button>
+                <button [ngClass]="userLike[mangaDetail.id] == mangaDetail.id ? 'd-block' : 'd-none'" (click)="userLike[mangaDetail.id] = 0; DeleteUserLikeOfManga(mangaDetail)" mat-fab color="primary" aria-label="like icon" matTooltip="Supprimer des favoris" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3">
+                  <mat-icon>favorite</mat-icon>
+                </button>
+              </div>
+              <button *ngIf="user == null" mat-fab color="primary" aria-label="librairy icon" matTooltip="Connectez-vous pour profiter des fonctionnalitées" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3" (click)="openDialog()">
+                <mat-icon>library_add</mat-icon>
+              </button>
+            <div *ngIf="user != null">
+              <button [ngClass]="!mangaInLibrary[mangaDetail.id] ? 'd-block' : 'd-none'" (click)="AddInLibraryManga(mangaDetail); mangaInLibrary[mangaDetail.id] = mangaDetail.id" mat-fab color="primary" aria-label="librairy icon" matTooltip="Ajouter à la bibliothèque" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3">
+                <mat-icon>library_add</mat-icon>
+              </button>
+              <button [ngClass]="mangaInLibrary[mangaDetail.id] == mangaDetail.id ? 'd-block' : 'd-none'"  mat-fab color="primary" aria-label="librairy icon" matTooltip="Supprimer de la bibliothèque" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action" class="mr-3"
+                      data-toggle="modal" data-target="#basicExample" (click)="frame.show()" mdbWavesEffect>
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+              <div mdbModal #frame="mdbModal" class="modal fade right" id="frameModalTop" tabindex="-1" role="dialog"
+                   aria-labelledby="myModalLabel" aria-hidden="true" (close)="onClose($event)">
+                <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
+                  <!--Content-->
+                  <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                      <p class="heading">Attention </p>
+
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                      </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+
+                      <div class="row">
+                        <div class="col-3">
+                          <p></p>
+                          <p class="text-center">
+                            <mdb-icon fas icon="book-dead" size="4x"></mdb-icon>
+                          </p>
+                        </div>
+
+                        <div class="col-9">
+                          <p class="h5">Vous allez supprimé {{mangaDetail.name}} de votre bibliothèque <br> Etes-vous sur ?</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                      <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect (click)="mangaInLibrary[mangaDetail.id] = 0; DeleteMangaInLibrary(mangaDetail); frame.hide()">Supprimer
+<!--                        <mdb-btn far icon="gem" class="ml-1"></mdb-btn>-->
+                      </a>
+                      <a type="button" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect (click)="frame.hide()"
+                         data-dismiss="modal">Annuler</a>
+                    </div>
+                  </div>
+                  <!--/.Content-->
+                </div>
+              </div>
+            </div>
+
+
+          </mat-card-actions>
+        </mat-card>
+
+      </div>
+      <div class="row ">
+        <div class="col">
+          <button *ngIf="paginator['hydra:previous']" class="btn btn-lg my-5 mx-2 text-center rounded buttonColor" type="button" (click)="MangaPaginator(paginator['hydra:previous'])">  Précedent </button>
+          <button  *ngIf="paginator['hydra:next']" class="btn btn-lg  my-5 mx-2 text-center rounded buttonColor" type="button" (click)="MangaPaginator(paginator['hydra:next'])">  Suivant </button>
+          <button *ngIf="paginator['hydra:last']" class="btn btn-lg  my-5 mx-2 text-center rounded buttonColor" type="button" (click)="MangaPaginator(paginator['hydra:last'])">  Dernière page </button>
+        </div>
+        </div>
+    </div>
+
+  </div>
+</div>
+

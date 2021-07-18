@@ -1,0 +1,24 @@
+<h2 mat-dialog-title class="text-center" style="color: #3f51b5"> Télécharger votre avatar </h2>
+<mat-dialog-content>
+  <label for="singleFile" class="mr-1">Sélectionner votre image</label>
+  <input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
+  <br>
+
+  <mat-file-upload-queue #fileUploadQueue
+                         [fileAlias]="'file'"
+                         [httpUrl]="'http://localhost:8000/userAccount/monProfil/changeAvatar/' + data.user.id"
+                          [uploadAllLabel]="'Tous supprimer'" [removeAllLabel]="'Tous télécharger'">
+
+    <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index" ></mat-file-upload>
+  </mat-file-upload-queue>
+  <div class="row">
+    <h2 mat-dialog-title class="text-center" style="color: #3f51b5"> Choississez parmis les avatar par défault</h2>
+    <div *ngFor="let avatar of defaultAvatar; let i = index" class="col-3">
+      <img src="http://127.0.0.1:8000/avatar/{{avatar}}" class="img-fluid avatar" [ngClass]="{'avatarSelected': defaultAvatarSelected === i}" (click)="defaultAvatarSelected = i">
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex">
+  <button mat-stroked-button color="primary" class="btn-block" >Valider</button>
+  <button mat-stroked-button color="primary" class="btn-block ml-0" (click)="onNoClick()">Retour</button>
+</mat-dialog-actions>

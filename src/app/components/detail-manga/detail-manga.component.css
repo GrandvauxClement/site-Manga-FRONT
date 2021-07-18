@@ -1,0 +1,16 @@
+.banniere {
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+  text-align: center;
+}
+.banniere .lien_wall {
+  display: block;
+  text-decoration: none;
+  height: 836px;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+.myColorBlue{
+  color: #3f51b5;
+}

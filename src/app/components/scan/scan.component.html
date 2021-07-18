@@ -1,0 +1,38 @@
+<div class="container mt-3" *ngIf="!isLoading">
+  <div class="row justify-content-center w-60">
+
+    <mat-form-field appearance="fill" color="primary" class="chooseScan">
+      <mat-label>Choisissez un scan</mat-label>
+      <mat-select [(value)]="selected">
+        <mat-option *ngFor="let otherScan of allScan" [value]="otherScan.numero" (click)="Redirect(otherScan.numero)"> {{manga.name}} {{otherScan.numero}} : {{otherScan.titre}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <h1 class="text-center">{{manga.name}} {{scan.numero}} : {{scan.titre}}</h1>
+
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+     <button mat-raised-button color="primary" class="mr-3 d-none d-sm-block" (click)="countPage = countPage - 1"> Précédent </button>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choisissez une Page</mat-label>
+        <mat-select [(value)]="countPage">
+          <mat-option *ngFor="let num of scan.pages; let index = index" [value]="index" (click)="countPage = index"> {{index + 1}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+     <button mat-raised-button color="primary" class="ml-4 d-none d-sm-block" (click)="countPage = countPage + 1"> Suivant </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center">
+      <img *ngIf="countPage < scan.pages.length -1" (click)="countPage = countPage + 1"  src="http://127.0.0.1:8000/scan/{{nameManga}}/chapitre-{{scan.numero}}/{{scan.pages[countPage]}}" alt="img scan" class="img-fluid w-100" style="max-width: 800px;">
+      <img *ngIf="countPage == scan.pages.length -1 " (click)="Redirect(scan.numero + 1)"  src="http://127.0.0.1:8000/scan/{{nameManga}}/chapitre-{{scan.numero}}/{{scan.pages[countPage]}}" class="img-fluid w-100" alt="img scan">
+    </div>
+  </div>
+</div>
+<div class="container-fluid" *ngIf="isLoading">
+  <h2>Chargement en cours ....</h2>
+</div>
+

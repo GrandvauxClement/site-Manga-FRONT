@@ -1,0 +1,25 @@
+.tooltip-action{
+  font-size: 1em;
+}
+#alphabet-filter {
+  list-style-type: none;
+  color: #3f51b5;
+}
+ul li:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.liSelected {
+  text-decoration: underline;
+}
+.buttonColor{
+  color: white;
+  background-color: #3f51b5;
+}
+.buttonColor:hover{
+  color: white;
+  background-color: #121d65;
+}
+.myColorBlue{
+  color: #3f51b5;
+}

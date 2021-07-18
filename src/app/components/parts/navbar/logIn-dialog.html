@@ -1,0 +1,105 @@
+<div *ngIf="data.asLogin && !data.forgetPassword">
+    <h2 mat-dialog-title class="text-center" style="color: #3f51b5"> Connexion</h2>
+    <mat-dialog-content>
+        <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+                <form class="d-flex flex-column" [formGroup]="formLogIn" >
+                        <mat-form-field class="d-block d-md-none">
+                            <input matInput placeholder="Email" formControlName="email" required>
+                            <mat-error *ngIf="formLogIn.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="d-none d-md-block" style="width: 20em">
+                          <input matInput placeholder="Email" formControlName="email" required>
+                          <mat-error *ngIf="formLogIn.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="d-block d-md-none">
+                            <input matInput placeholder="Mot de passe" formControlName="password" required>
+                        </mat-form-field>
+                        <mat-form-field class="d-none d-md-block" style="width: 20em">
+                          <input matInput type="password" placeholder="Mot de passe" formControlName="password" required>
+                        </mat-form-field>
+                </form>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-stroked-button color="primary" class="btn-block" (click)="login()">Connexion</button>
+        <button mat-stroked-button color="primary" class="btn-block ml-0" (click)="onNoClick()">Retour</button>
+        <button mat-stroked-button color="primary" class="btn-block ml-0" style="white-space: normal; line-height: 1.8em" (click)="data.asLogin = false">Pas encore de compte ? Inscrivez-vous</button>
+        <button mat-stroked-button color="primary" class="btn-block ml-0" (click)="data.forgetPassword = true">Mot de passe oublié ?</button>
+    </mat-dialog-actions>
+</div>
+<div *ngIf="!data.asLogin && !data.forgetPassword">
+    <h2 mat-dialog-title class="text-center" style="color: #3f51b5"> Inscrivez-vous</h2>
+    <mat-dialog-content>
+        <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+            <form class="d-flex flex-column" [formGroup]="formRegister" >
+                <mat-form-field class="d-block d-md-none">
+                    <input matInput type="email" placeholder="Email" formControlName="email">
+                    <mat-error *ngIf="formRegister.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-none d-md-block" style="width: 20em">
+                  <input matInput type="email" placeholder="Email" formControlName="email" required>
+                  <mat-error *ngIf="formRegister.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="d-block d-md-none">
+                    <input matInput type="password" placeholder="Mot de passe" formControlName="password" required>
+                    <mat-error *ngIf="formRegister.get('password').hasError('pattern')">Le mot de passe doit contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-none d-md-block" style="width: 20em">
+                  <input matInput type="password" placeholder="Mot de passe" formControlName="password" required>
+                  <mat-error *ngIf="formRegister.get('password').hasError('minLength')">Le mot de passe doit comporté 6 carcactère au minimum</mat-error>
+                  <mat-error *ngIf="formRegister.get('password').hasError('pattern')">Le mot de passe doit contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-block d-md-none">
+                  <input matInput type="password" placeholder="Mot de passe" formControlName="passwordConfirm" required>
+                  <mat-error *ngIf="formRegister.get('passwordConfirm').errors && formRegister.get('passwordConfirm').errors.ConfirmPassword && formRegister.get('passwordConfirm') != null"> Le mot de passe et sa confirmation ne correspondent pas</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-none d-md-block" style="width: 20em">
+                  <input matInput type="password" placeholder="Mot de passe" formControlName="passwordConfirm" required>
+                  <mat-error *ngIf="formRegister.get('passwordConfirm').errors && formRegister.get('passwordConfirm').errors.ConfirmPassword && formRegister.get('passwordConfirm') != null"> Le mot de passe et sa confirmation ne correspondent pas</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="d-block d-md-none">
+                  <input matInput type="text" placeholder="Pseudo" formControlName="pseudo" required>
+                  <mat-error *ngIf="formRegister.get('pseudo').hasError('required')">Veuillez saisir un pseudo</mat-error>
+                </mat-form-field>
+                <mat-form-field class="d-none d-md-block" style="width: 20em">
+                  <input matInput type="text" placeholder="Pseudo" formControlName="pseudo" required>
+                  <mat-error *ngIf="formRegister.get('pseudo').hasError('required')">Veuillez saisir un pseudo</mat-error>
+                </mat-form-field>
+
+            </form>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-stroked-button color="primary" class="btn-block" (click)="register()">Inscription</button>
+        <button mat-stroked-button color="primary" class="btn-block ml-0" (click)="onNoClick()">Retour</button>
+        <button mat-stroked-button color="primary" class="btn-block ml-0" style="white-space: normal; line-height: 1.8em" (click)="data.asLogin = true">Vous avez déjà un compte ? Connectez-vous</button>
+    </mat-dialog-actions>
+</div>
+<div *ngIf="data.forgetPassword">
+  <h2 mat-dialog-title class="text-center" style="color: #3f51b5"> Réinitialiser votre mot de passe</h2>
+  <mat-dialog-content>
+    <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+      <form class="d-flex flex-column" [formGroup]="formForgetPassword" >
+        <mat-form-field class="d-block d-md-none">
+          <input matInput placeholder="Email" formControlName="email" required>
+          <mat-error *ngIf="formForgetPassword.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+        </mat-form-field>
+        <mat-form-field class="d-none d-md-block" style="width: 20em">
+          <input matInput placeholder="Email" formControlName="email" required>
+          <mat-error *ngIf="formForgetPassword.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+        </mat-form-field>
+      </form>
+
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-stroked-button color="primary" class="btn-block" (click)="forgetPassword()">Recevoir mon nouveau mot de passe</button>
+    <button mat-stroked-button color="primary" class="btn-block ml-0" (click)="onNoClick()">Retour</button>
+    <button mat-stroked-button color="primary" class="btn-block ml-0" style="white-space: normal; line-height: 1.8em" (click)="data.forgetPassword = false">Pas encore de compte ? Inscrivez-vous</button>
+  </mat-dialog-actions>
+</div>
