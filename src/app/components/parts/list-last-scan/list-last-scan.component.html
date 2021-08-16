@@ -1,0 +1,59 @@
+<div class="row" *ngIf="!isLoading">
+  <mat-selection-list #shoes [multiple]="false">
+    <mat-list-option *ngFor="let scan of lastScanOrderByDate; let i = index" [value]="scan" class="border mb-1 h-auto p-sm-2 rounded p-0 bg-light">
+      <div class="row justify-content-between px-0">
+        <div class="row justify-content-between d-sm-none my-1 px-0">
+
+            <div class="col-2">
+              <button mat-flat-button color="primary" [ngClass]="!scanLike[i] ? 'd-block' : 'd-none'"  (click)="scanLike[i] = i;scan.numberOfLike = scan.numberOfLike + 1; addScanLike(scan.idScan)">
+                <mat-icon>favorite_border</mat-icon>{{scan.numberOfLike}}
+              </button>
+              <button mat-flat-button color="primary" [ngClass]="scanLike[i] == i ? 'd-block' : 'd-none'" (click)="scanLike[i] = 0; scan.numberOfLike = scan.numberOfLike - 1; removeScanLike(scan.idScan)">
+                <mat-icon>favorite</mat-icon>{{scan.numberOfLike}}
+              </button>
+            </div>
+
+            <div class="col-10 d-flex align-items-center justify-content-end" style="font-size: 14px">
+              <mat-icon>calendar_today</mat-icon> {{scan.dateAjout|date:'shortDate'}}
+            </div>
+
+        </div>
+        <div class="col-4 col-sm-2">
+            <img src="http://127.0.0.1:8000/images/{{scan.image[0]}}" class="img-fluid rounded text-start" alt="image présentation manga {{scan.nomManga}}" style="max-height: 130px">
+        </div>
+          <div class="col-8 col-sm-10">
+            <div class="row justify-content-between d-none d-sm-flex mb-1">
+              <div class="col-6 col-md-4 col-lg-2 d-flex">
+                <button mat-flat-button color="primary" [ngClass]="!scanLike[i] ? 'd-block' : 'd-none'"  (click)="scanLike[i] = i;scan.numberOfLike = scan.numberOfLike + 1; addScanLike(scan.idScan)">
+                  <mat-icon>favorite_border</mat-icon>{{scan.numberOfLike}}
+                </button>
+                <button mat-flat-button color="primary" [ngClass]="scanLike[i] == i ? 'd-block' : 'd-none'" (click)="scanLike[i] = 0; scan.numberOfLike = scan.numberOfLike - 1; removeScanLike(scan.idScan)">
+                  <mat-icon>favorite</mat-icon>{{scan.numberOfLike}}
+                </button>
+                <button mat-flat-button class="ml-2"  color="primary" *ngIf="scan.numberOfRead == null">
+                  <mat-icon class="mr-1">visibility</mat-icon>10
+                </button>
+                <button mat-flat-button class="ml-2"  color="primary" *ngIf="scan.numberOfRead != null">
+                  <mat-icon class="mr-1">visibility</mat-icon>{{scan.numberOfRead}}
+                </button>
+              </div>
+
+              <div class="col-6 d-flex justify-content-end align-items-center">
+                <mat-icon class="mr-1">calendar_today</mat-icon> {{scan.dateAjout|date:'longDate'}}
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <h3 class="myColorBlue underline" [routerLink]="['/manga-detail', scan.idManga]">{{scan.nomManga}} </h3>
+              <h5 class="myColorBlue underline" [routerLink]="['/read-scan',scan.idScan, scan.nameOfDirectory, scan.numero]">Chapitre {{scan.numero}} <span class="d-none d-sm-inline">: {{scan.titre}}</span></h5>
+            </div>
+
+          </div>
+        </div>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<div class="row justify-content-center" *ngIf="isLoading">
+  <h2 class="text-center myColorBlue">En cours de Chargement ...</h2>
+  <mat-spinner></mat-spinner>
+
+</div>

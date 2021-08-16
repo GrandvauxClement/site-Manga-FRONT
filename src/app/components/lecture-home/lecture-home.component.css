@@ -1,0 +1,12 @@
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content-reverse, .mat-list-base .mat-list-option .mat-list-item-content-reverse{
+  padding: 0 1px !important;
+}
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+  padding: 0 1px !important;
+}
+::ng-deep .mat-list-base .mat-list-item.mat-list-item-with-avatar .mat-list-item-content-reverse .mat-list-text,
+.mat-list-base .mat-list-item.mat-list-option .mat-list-item-content-reverse .mat-list-text,
+.mat-list-base .mat-list-option.mat-list-item-with-avatar .mat-list-item-content-reverse .mat-list-text,
+.mat-list-base .mat-list-option.mat-list-option .mat-list-item-content-reverse .mat-list-text {
+  padding-right: 1px;
+}

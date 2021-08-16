@@ -3,6 +3,9 @@ import {Scan} from "../../models/scan";
 import {Manga} from "../../models/manga";
 import {MangaService} from "../../services/manga.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {UserService} from "../../services/user.service";
+import {User} from "../../models/user";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-scan',
@@ -18,39 +21,46 @@ export class ScanComponent implements OnInit {
   scan: Scan;
   manga: Manga;
   allScan: Scan[];
+  user: User;
   selected: number;
-  constructor(private mangaService: MangaService, private route: ActivatedRoute, private router: Router) { }
+  userForStats ;
+  constructor(private mangaService: MangaService, private route: ActivatedRoute, private router: Router, private userService: UserService, private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.user = this.tokenStorage.getUser();
     this.nameManga = this.route.snapshot.paramMap.get('manga');
     this.idScan = +this.route.snapshot.paramMap.get('id');
     this.mangaService.getScanById(this.idScan).subscribe((data ) => {
       this.scan = data;
-      console.log(this.scan);
       this.selected = this.scan.numero;
-      console.log('selected : ' + this.selected);
       this.mangaService.getManga(this.scan.manga).subscribe((dataBis) => {
         this.manga = dataBis;
-        console.log(this.manga);
         this.mangaService.getScanByMangaId(this.manga.id).subscribe((dataThird) => {
           this.allScan = dataThird;
-          console.log('je passe ici' + dataThird);
-          this.isLoading = false;
+          if (this.user == null){
+            this.userForStats = null;
+          }else {
+            this.userForStats = this.user.id;
+          }
+          this.userService.statsCountMangaRead(this.userForStats, this.idScan).subscribe( then => {
+            this.isLoading = false;
+          });
         })
       })
     })
   }
 
   Redirect(numeroScan) {
-    console.log('je suis ICI !!');
     this.mangaService.getScanByNameAndNumScan(numeroScan, this.manga.name).subscribe( (newScan) => {
+
       this.idNextScan = newScan.id;
       this.scan = newScan;
       this.countPage = 0;
-      //  window.location.href = 'http://localhost:4200/#/read-scan/' + this.idNextScan + '/' + this.manga.nameDirectoryOfScan + '/' + numeroScan ;
-      this.router.navigate(['read-scan', this.idNextScan, this.manga.nameDirectoryOfScan, numeroScan]);
-      //   ['/read-scan',scanTitle.id, manga.nameDirectoryOfScan, scanTitle.numero]
+      this.selected = newScan.numero;
+      this.userService.statsCountMangaRead(this.user.id, this.idScan).subscribe( then => {
+        this.router.navigate(['read-scan', this.idNextScan, this.manga.nameDirectoryOfScan, numeroScan]);
+      });
     })
   }
 }

@@ -1,16 +1,18 @@
-<div class="container">
-  <div class="row" *ngIf="isLoading">
-    chargement en cours
+<div class="container" *ngIf="isLoading">
+  <div class="row justify-content-center" >
+    <h2 class="text-center myColorBlue">En cours de Chargement ...</h2>
+    <mat-spinner></mat-spinner>
+
   </div>
 </div>
 
 <div class="container bg-light" *ngIf="!isLoading">
-  <h1 class="myColorBlue text-center">{{manga.name}}</h1>
+  <h1 class="myColorBlue text-center font-weight-bold">{{manga.name}}</h1>
   <div class="row">
-    <div class="col-md-4 col-12">
-      <img src="http://127.0.0.1:8000/images/{{manga.image[0]}}" class="d-block text-center" alt="image manga" >
+    <div class="col-md-4 col-12 d-flex justify-content-center">
+      <img src="http://127.0.0.1:8000/images/{{manga.image[0]}}" class="img-fluid w-100" alt="image présentation {{manga.name}}" style="max-width: 300px">
     </div>
-    <div class="col-md-8 col-12 d-flex align-items-center">
+    <div class="col-md-8 col-12 d-flex align-items-center mt-2 mt-md-0">
       <table class="table">
         <tbody>
         <tr>
@@ -28,8 +30,14 @@
         <tr>
           <th scope="row"> Genre:</th>
           <td>
-            <a *ngFor="let genreDetail of manga.genre" [routerLink]="['/manga']" [queryParams]="{genre:genreDetail}" class="myColorBlue"><u>{{genreDetail}}</u> - </a>
+            <button mat-raised-button color="primary" *ngFor="let genreDetail of manga.genre" [routerLink]="['/manga']" [queryParams]="{genre:genreDetail}" class="mr-1">{{genreDetail}}</button>
           </td>
+        </tr>
+        <tr>
+          <th scope="row"> Note:</th>
+            <td>
+              <star-rating value="{{manga.note}}" checkedcolor="#3f51b5" uncheckedcolor="#8689a8" readonly="false" (rate)="onRate($event)" [totalstars]="5" size="24px"></star-rating>
+            </td>
         </tr>
         </tbody>
       </table>
@@ -40,30 +48,32 @@
     <p class="mt-2 ml-2"> {{manga.synopsis}}</p>
     <h2 class="myColorBlue mt-2 ml-5">Présentation </h2>
     <p class="mt-2 ml-2"> {{manga.presentation}}</p>
-    <table class="table">
-      <tbody>
-        <tr *ngIf="manga.author != ' '">
-          <th scope="row" class="myColorBlue"> Auteur:</th>
-          <td> {{manga.author}}</td>
-        </tr>
-        <tr *ngIf="manga.scenariste != ' '">
-          <th scope="row" class="myColorBlue"> Scénariste :</th>
-          <td> {{manga.scenariste}}</td>
-        </tr>
-        <tr *ngIf="manga.prepublierChez != ' '">
-          <th scope="row" class="myColorBlue"> Prépublié chez :</th>
-          <td> {{manga.prepublierChez}}</td>
-        </tr>
-        <tr *ngIf="manga.dateDebut">
-          <th scope="row" class="myColorBlue"> Date de début:</th>
-          <td> {{manga.dateDebut|date}} </td>
-        </tr>
-        <tr *ngIf="manga.dateFin">
-          <th scope="row" class="myColorBlue"> Date de fin:</th>
-          <td> {{manga.dateFin|date}} </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="col-10 col-sm-8 col-md-6 col-lg-4 ml-4">
+      <table class="table table-striped">
+        <tbody>
+          <tr *ngIf="manga.author != ' '">
+            <th scope="row" class="myColorBlue"> Auteur:</th>
+            <td> {{manga.author}}</td>
+          </tr>
+          <tr *ngIf="manga.scenariste != ' '">
+            <th scope="row" class="myColorBlue"> Scénariste :</th>
+            <td> {{manga.scenariste}}</td>
+          </tr>
+          <tr *ngIf="manga.prepublierChez != ' '">
+            <th scope="row" class="myColorBlue"> Prépublié chez :</th>
+            <td> {{manga.prepublierChez}}</td>
+          </tr>
+          <tr *ngIf="manga.dateDebut">
+            <th scope="row" class="myColorBlue"> Date de début:</th>
+            <td> {{manga.dateDebut|date}} </td>
+          </tr>
+          <tr *ngIf="manga.dateFin">
+            <th scope="row" class="myColorBlue"> Date de fin:</th>
+            <td> {{manga.dateFin|date}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="row" *ngIf="scan.length != 0">
@@ -72,8 +82,18 @@
         <li *ngFor="let scanTitle of scan " [routerLink]="['/read-scan',scanTitle.id, manga.nameDirectoryOfScan, scanTitle.numero]">{{manga.name}} {{scanTitle.numero}} : {{scanTitle.titre}} / {{scanTitle.dateAjout|date}}</li>
     </ul>-->
     <mat-selection-list #shoes [multiple]="false">
-      <mat-list-option *ngFor="let scanTitle of scan" [value]="scanTitle" [routerLink]="['/read-scan',scanTitle.id, manga.nameDirectoryOfScan, scanTitle.numero]">
-        {{manga.name}} {{scanTitle.numero}} : {{scanTitle.titre}} / {{scanTitle.dateAjout|date}}
+      <mat-list-option *ngFor="let scanTitle of scan" [value]="scanTitle" [routerLink]="['/read-scan',scanTitle.id, manga.nameDirectoryOfScan, scanTitle.numero]" class="border-bottom mb-1 h-auto" style="min-height: 40px">
+        <div class="d-flex justify-content-between align-items-center">
+         <div class="ml-sm-2 d-flex align-items-center">
+           <h5>{{manga.name}} {{scanTitle.numero}} : {{scanTitle.titre}}</h5>
+         </div>
+           <div class="d-none d-md-block">
+          {{scanTitle.dateAjout|date:'longDate'}}
+           </div>
+          <div class="d-block d-md-none">
+            {{scanTitle.dateAjout|date:'shortDate'}}
+          </div>
+        </div>
       </mat-list-option>
     </mat-selection-list>
   </div>

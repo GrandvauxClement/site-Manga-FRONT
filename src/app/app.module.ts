@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import {LogInDialog, NavbarComponent} from './components/parts/navbar/navbar.component';
@@ -57,6 +57,15 @@ import {authInterceptorProviders} from "./_helpers/authenticator.interceptor";
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import {MonProfilComponent, UploadFiles} from './components/userAccount/mon-profil/mon-profil.component';
 import {MatFileUploadModule} from "angular-material-fileupload";
+import localFr from '@angular/common/locales/fr'
+import {RatingModule} from "ng-starrating";
+import { DragScrollModule } from 'ngx-drag-scroll';
+import { ListLastScanComponent } from './components/parts/list-last-scan/list-last-scan.component';
+import { HomeComponent } from './components/home/home.component';
+import { LectureHomeComponent } from './components/lecture-home/lecture-home.component';
+import { UploadNewScanComponent } from './components/admin/upload-new-scan/upload-new-scan.component';
+
+registerLocaleData(localFr, 'fr');
 
 export function getToken() {
   return localStorage.getItem('auth-token');
@@ -75,7 +84,11 @@ export function getToken() {
     ConfirmDialogComponent,
     ForgotPasswordComponent,
     MonProfilComponent,
-    UploadFiles
+    UploadFiles,
+    ListLastScanComponent,
+    HomeComponent,
+    LectureHomeComponent,
+    UploadNewScanComponent
   ],
   imports: [
     BrowserModule,
@@ -126,11 +139,14 @@ export function getToken() {
     JwtModule.forRoot({ config: {
         tokenGetter: getToken
       }}),
-    MatFileUploadModule
+    MatFileUploadModule,
+    RatingModule,
+    DragScrollModule
   ],
   providers: [
     AuthenticatorGuardService,
-    authInterceptorProviders
+    authInterceptorProviders,
+    {provide: LOCALE_ID, useValue: "fr-FR"}
   ],
   bootstrap: [AppComponent]
 })

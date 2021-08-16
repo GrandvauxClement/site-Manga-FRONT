@@ -13,7 +13,7 @@
                           <mat-error *ngIf="formLogIn.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
                         </mat-form-field>
                         <mat-form-field class="d-block d-md-none">
-                            <input matInput placeholder="Mot de passe" formControlName="password" required>
+                            <input matInput type="password" placeholder="Mot de passe" formControlName="password" required>
                         </mat-form-field>
                         <mat-form-field class="d-none d-md-block" style="width: 20em">
                           <input matInput type="password" placeholder="Mot de passe" formControlName="password" required>

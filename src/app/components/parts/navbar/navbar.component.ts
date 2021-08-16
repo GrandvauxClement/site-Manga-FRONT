@@ -8,6 +8,7 @@ import {User} from '../../../models/user';
 import {MangaService} from '../../../services/manga.service';
 import {ConfirmPasswordValidator} from './confirm-password.validator';
 import {ToastrService} from "ngx-toastr";
+import {randomInt} from "crypto";
 
 export interface DialogData {
   asLogin: boolean;
@@ -28,14 +29,23 @@ export class NavbarComponent implements OnInit {
   text: String;
   isCollapsed: boolean;
   selectedItem = 0;
+  arrayImageHeader : Array<any> = ['hunter-x-hunter-anime.jpg','naruto.jpg','one-piece-anime.jpg','shingeki-no-kyojin-anime.jpg','toji-no-miko-anime.jpg','00454d362b96b28e9438d818161522d1.jpg'];
+  imageHeaderSelected;
+  screenWidth: number = 60;
+  dialogScreenAdepted: boolean = false;
   constructor(public dialog: MatDialog, private tokenStorage: TokenStorageService, private fb: FormBuilder,
               private mangaService: MangaService, private eRef: ElementRef) {
     this.text = 'no clicks yet';
   }
 
   ngOnInit(): void {
+    this.imageHeaderSelected = 'background-image: url(http://127.0.0.1:8000/header/' + this.arrayImageHeader[Math.floor(Math.random() * 6)] + ')';
     this.user = this.tokenStorage.getUser();
     this.isCollapsed = true;
+    this.screenWidth = window.screen.width
+    if (window.screen.width < 500){
+      this.screenWidth = 80;
+    }
     this.formSearch = this.fb.group({
       search: [this.search, []],
     });
@@ -55,7 +65,7 @@ export class NavbarComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(LogInDialog, {
-      width: '60vw',
+      width: this.screenWidth + 'vw',
       data : {
         asLogin: true,
         forgetPassword: false

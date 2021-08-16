@@ -9,15 +9,20 @@ import {BibliothequeComponent} from "./components/userAccount/bibliotheque/bibli
 import {AuthenticatorGuardService} from "./guards/authenticator.guard";
 import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
 import {MonProfilComponent} from "./components/userAccount/mon-profil/mon-profil.component";
+import {HomeComponent} from "./components/home/home.component";
+import {LectureHomeComponent} from "./components/lecture-home/lecture-home.component";
+import {UploadNewScanComponent} from "./components/admin/upload-new-scan/upload-new-scan.component";
 
 const routes: Routes = [
-  {path: 'home', component: MangaComponent},
+  {path: 'home', component: HomeComponent},
   {path: 'manga', component: MangaComponent},
+  {path: 'lecture-home', component: LectureHomeComponent},
   {path: 'manga-detail/:id', component: DetailMangaComponent},
   {path: 'read-scan/:id/:manga/:numero', component: ScanComponent},
   {path: 'forgot-password/:token', component: ForgotPasswordComponent},
   {path: 'maBibiliotheque', component: BibliothequeComponent, canActivate: [AuthenticatorGuardService]},
   {path: 'monProfil', component: MonProfilComponent, canActivate: [AuthenticatorGuardService]},
+  {path: 'admin', component: UploadNewScanComponent, canActivate: [AuthenticatorGuardService]},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 

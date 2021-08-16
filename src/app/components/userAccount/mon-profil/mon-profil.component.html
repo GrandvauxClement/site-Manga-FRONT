@@ -1,14 +1,25 @@
 <div class="container" *ngIf="!isLoading">
-  <h1 class="myColorBlue text-center">Bienvenue dans votre profil {{user.pseudo}}</h1>
-  <div class="row">
-    <div class="col-md-6 col-12 d-flex flex-column justify-content-center">
-      <img src="http://127.0.0.1:8000/avatar/{{user.avatar}}" class="img-fluid">
-      <button mat-raised-button color="primary" (click)="openDialog()" class="mt-4">Modifier votre avatar</button>
+  <h1 class="myColorBlue text-center font-weight-bold">Bienvenue dans votre profil {{user.pseudo}}</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-lg-2 col-12 d-flex flex-column justify-content-center align-items-center">
+      <img *ngIf="imageAvatarChanged == null" src="http://127.0.0.1:8000/avatar/{{user.avatar}}" class="img-fluid" style="max-height: 200px; max-width: 200px">
+      <img *ngIf="imageAvatarChanged != null" src="http://127.0.0.1:8000/avatar/{{imageAvatarChanged}}" class="img-fluid" style="max-height: 200px; max-width: 200px">
+      <button mat-raised-button color="primary" (click)="openDialog()" class="mt-2" style="max-width: 200px">Modifier votre avatar</button>
     </div>
-    <div class="col-md-6 col-12 d-flex flex-column justify-content-around">
-      <h5><span class="font-weight-bold myColorBlue">Inscrit depuis le : </span> {{user.dateInscription|date}}</h5>
-      <h5><span class="font-weight-bold myColorBlue">Nombre de manga aimés : </span> {{numberOflike}}</h5>
-      <h5><span class="font-weight-bold myColorBlue">Nombre de manga dans votre Bibliothèque : </span> {{numberOfMangaInLibrary}}</h5>
+    <div class="col-md-7 col-lg-5 col-9 ml-3 d-flex flex-column justify-content-center mt-2 mt-md-0">
+      <h5><span class="myColorBlue font-weight-bold mb-3">Inscrit depuis le : </span> {{user.dateInscription|date}}</h5>
+      <h5><span class="myColorBlue font-weight-bold mb-3">Nombre de manga aimés : </span> {{numberOflike}}</h5>
+      <h5><span class="myColorBlue font-weight-bold">Manga dans votre Bibliothèque : </span> {{numberOfMangaInLibrary}}</h5>
+      <drag-scroll scrollbar-hidden="true">
+        <img class="dragScrollImg img-fluid" *ngFor="let manga of mangaInBibliotheque" src="http://127.0.0.1:8000/images/{{manga.manga.image}}" drag-scroll-item alt="image {{manga.manga.name}}" matTooltip="Voir ma bibliothèque" [matTooltipPosition]="'below'" [routerLink]="['/maBibiliotheque']">
+      </drag-scroll>
     </div>
+  </div>
+</div>
+<div class="container" *ngIf="isLoading">
+  <div class="row justify-content-center">
+    <h2 class="text-center myColorBlue">En cours de Chargement ...</h2>
+    <mat-spinner></mat-spinner>
+
   </div>
 </div>

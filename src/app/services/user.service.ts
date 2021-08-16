@@ -28,12 +28,12 @@ export class UserService {
     return throwError(errorMessage);
   }
 
-  getUserLikeManga(id): Observable<any>{
-    return this.http.get<any>(this.apiUrl + '/mangas/getLikeManga/' + id);
+  getUserLikeManga(userId): Observable<any>{
+    return this.http.get<any>(this.apiUrl + '/userAccount/mangas/getLikeManga/' + userId);
   }
 
   addNewMangaInLIbrary(userId, mangaId, status, notePerso): Observable<any>{
-    return this.http.post<any>(this.apiUrl + '/library/addManga', {
+    return this.http.post<any>(this.apiUrl + '/userAccount/library/addManga', {
       "userId": userId,
       "manga": mangaId,
       "status": status,
@@ -42,30 +42,30 @@ export class UserService {
   }
 
   deleteMangaInLIbraryBYUserId(userId, mangaId): Observable<any>{
-    return this.http.delete<any>(this.apiUrl + '/library/deleteManga/' + userId + '/' +mangaId)
+    return this.http.delete<any>(this.apiUrl + '/userAccount/library/deleteManga/' + userId + '/' +mangaId)
   }
 
   addNewUserLikeManga(userId, mangaId): Observable<any>{
-    return this.http.post<any>( this.apiUrl + '/addMangaLikeByUser', {
+    return this.http.post<any>( this.apiUrl + '/userAccount/addMangaLikeByUser', {
       "userId": userId,
       "mangaId": mangaId
     })
   }
 
   deleteUserLikeOfManga(userId, mangaId): Observable<any>{
-    return this.http.delete<any>(this.apiUrl + '/mangaLike/deleteManga/' + userId + '/' +mangaId)
+    return this.http.delete<any>(this.apiUrl + '/userAccount/mangaLike/deleteManga/' + userId + '/' +mangaId)
   }
-
+  //retourne id manga compris dans la biliotheque
   getMangaInLibraryByUserId(userId): Observable<any> {
-    return this.http.get<any>(this.apiUrl + '/library/getMangaByUserId/' + userId);
+    return this.http.get<any>(this.apiUrl + '/userAccount/library/getOnlyIdMangaByUserId/' + userId);
   }
 
   getMangaInLibraryByUserIdForAccount(userId): Observable<any> {
-    return this.http.get<any>(this.apiUrl + '/library/userAccount/getMangaByUserId/' + userId);
+    return this.http.get<any>(this.apiUrl + '/userAccount/library/getMangaByUserId/' + userId);
   }
 
   LibraryUserChangeMangaStatus(userId, mangaId, status): Observable<any> {
-    return this.http.post<any>(this.apiUrl + '/library/changeStatusManga', {
+    return this.http.post<any>(this.apiUrl + '/userAccount/library/changeStatusManga', {
       "userId": userId,
       "mangaId": mangaId,
       "status": status
@@ -73,7 +73,7 @@ export class UserService {
   }
 
   LibraryUserChangeMangaNotePerso(userId, mangaId, notePerso): Observable<any> {
-    return this.http.post<any>(this.apiUrl + '/library/changeNotePersoManga', {
+    return this.http.post<any>(this.apiUrl + '/userAccount/library/changeNotePersoManga', {
       "userId": userId,
       "mangaId": mangaId,
       "notePerso": notePerso
@@ -85,7 +85,14 @@ export class UserService {
   }
 
   getUserById(userId): Observable<User> {
-    return this.http.get<User>(this.apiUrl + '/getCompleteUserById/' + userId);
+    return this.http.get<User>(this.apiUrl + '/userAccount/getCompleteUserById/' + userId);
+  }
+
+  statsCountMangaRead(userId, scanId): Observable<any> {
+    return this.http.post(this.apiUrl + '/stats/countScanRead', {
+      "userId": userId,
+      "scanId": scanId
+    })
   }
 
 }

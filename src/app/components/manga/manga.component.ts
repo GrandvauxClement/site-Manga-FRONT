@@ -46,6 +46,7 @@ export class MangaComponent implements OnInit {
       console.log('user : '+ this.user.id);
       this.userService.getUserLikeManga(this.user.id).subscribe((userLike) => {
         this.userLike = userLike;
+        console.log(userLike + 'userLike');
       })
       this.userService.getMangaInLibraryByUserId(this.user.id).subscribe((mangaLibrary => {
         this.mangaInLibrary = mangaLibrary;

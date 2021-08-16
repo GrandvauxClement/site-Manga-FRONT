@@ -3,6 +3,7 @@ import {MangaService} from "../../services/manga.service";
 import {ActivatedRoute} from "@angular/router";
 import {Manga} from "../../models/manga";
 import {Scan} from "../../models/scan";
+import {StarRatingComponent} from "ng-starrating";
 
 @Component({
   selector: 'app-detail-manga',
@@ -28,6 +29,16 @@ export class DetailMangaComponent implements OnInit {
         this.isLoading = false;
       })
     })
+  }
+
+  onRate($event:{oldValue:number, newValue:number, starRating:StarRatingComponent}) {
+    this.mangaService.ChangeValueOfNoteOfManag(this.idManga, $event.newValue).subscribe(then => {
+      alert(`Old Value:${$event.oldValue},
+      New Value: ${$event.newValue},
+      Checked Color: ${$event.starRating.checkedcolor},
+      Unchecked Color: ${$event.starRating.uncheckedcolor}`);
+    });
+
   }
 
 }

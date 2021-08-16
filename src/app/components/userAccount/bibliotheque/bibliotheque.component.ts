@@ -22,7 +22,7 @@ import {Sort} from '@angular/material/sort';
   styleUrls: ['./bibliotheque.component.css']
 })
 export class BibliothequeComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'Nom Manga', 'Image', 'Status', 'Note Perso', 'Actions'];
+  displayedColumns: string[] = ['Nom Manga', 'Image', 'Status', 'Note Perso', 'Actions'];
   user: User;
   dataSource = new MatTableDataSource<Library>();
   selection = new SelectionModel<Library>(true, []);
@@ -76,10 +76,10 @@ export class BibliothequeComponent implements OnInit {
   }
 
   setupTable() {
-    if (window.screen.width === 360) {
+    if (window.screen.width <= 420) {
       this.displayedColumns = ['Nom Manga', 'Status', 'Note Perso', 'Actions'];
     } else {
-      this.displayedColumns = ['select', 'Nom Manga', 'Image', 'Status', 'Note Perso', 'Actions'];
+      this.displayedColumns = ['Nom Manga', 'Image', 'Status', 'Note Perso', 'Actions'];
     }
   };
 
@@ -161,6 +161,16 @@ export class BibliothequeComponent implements OnInit {
   }
   ngOnDestroy() {
     this.flexMediaWatcher.unsubscribe();
+  }
+
+  DeleteMangaInLibrary(manga) {
+    this.userService.deleteMangaInLIbraryBYUserId( this.user.id, manga.id).subscribe((deleteLibrary => {
+      this.toastr.error('a bien été supprimer de votre bibliothèque' , 'Réussite: ' + manga.name)
+    }))
+  }
+
+  onClose(event: any){
+    console.log(event);
   }
 
   sortData(sort: Sort) {

@@ -19,4 +19,11 @@ export class UploadService {
       observe: 'events'
     });
   }
+
+  changeAvatarByDefaultImage(userId, name) {
+    return this.http.post<any>(this.apiUrl + '/userAccount/monProfil/changeAvatarByDefaultImage', {
+      userId: userId,
+      nameAvatar: name
+    })
+  }
 }

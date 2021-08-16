@@ -1,5 +1,6 @@
 <!--Navbar-->
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top">
+
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top h-10" style="height: 8vh!important;">
 
   <!-- Navbar brand -->
   <mdb-navbar-brand><a class="navbar-brand" [routerLink]="['/home']">Mangaclypédie</a></mdb-navbar-brand>
@@ -13,14 +14,17 @@
         <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/home']">Accueil</a>
       </li>
       <li class="nav-item" [ngClass]="{'active': selectedItem === 1}" (click)="selectedItem = 1">
-        <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/home']"> Manga </a>
+        <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/manga']"> Manga </a>
       </li>
-      <li class="nav-item" (click)="openDialog(); selectedItem = 2" *ngIf="!user" [ngClass]="{'active': selectedItem === 2}">
+      <li class="nav-item" [ngClass]="{'active': selectedItem === 2}" (click)="selectedItem = 2">
+        <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/lecture-home']"> Lecture en ligne </a>
+      </li>
+      <li class="nav-item" (click)="openDialog(); selectedItem = 3" *ngIf="!user" [ngClass]="{'active': selectedItem === 3}">
         <a class="nav-link waves-light" mdbWavesEffect> Connexion</a>
       </li>
 
       <!-- Dropdown -->
-      <li class="nav-item dropdown" dropdown *ngIf="user" [ngClass]="{'active': selectedItem === 2}" (click)="selectedItem = 2">
+      <li class="nav-item dropdown" dropdown *ngIf="user" [ngClass]="{'active': selectedItem === 3}" (click)="selectedItem = 3">
         <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light">
           Mon Compte<span class="caret"></span></a>
         <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
@@ -36,7 +40,7 @@
     <!-- Links -->
 
     <!-- Search form -->
-    <form class="d-flex flex-column mr-5" [formGroup]="formSearch">
+    <form class="d-flex flex-column mr-5 mt-lg-2" [formGroup]="formSearch">
       <!-- <div class="md-form my-0">
            <input class="form-control mr-sm-2" type="text" placeholder="Search">
          </div>-->
@@ -72,9 +76,9 @@
         <a href="#" *ngFor="let detailSearch of search" class="d-flex list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/manga-detail', detailSearch.id]">
           <div class="d-flex">
             <img src="http://127.0.0.1:8000/images/{{detailSearch.image[0]}}" class="img-fluid" alt="image manga">
-            <div class="d-flex flex-column  mx-2">
-              <h2 class="mb-1 text-center">{{detailSearch.name}} <small>( {{detailSearch.type}} )</small></h2>
-              <p>{{detailSearch.presentation.substring(0,115)}} [...]</p>
+            <div class="d-flex flex-column justify-content-center mx-2">
+              <h2 class="mb-1 text-center">{{detailSearch.name}} <small class="d-none d-sm-inline">( {{detailSearch.type}} )</small></h2>
+              <p class="d-none d-sm-block">{{detailSearch.presentation.substring(0,115)}} [...]</p>
             </div>
           </div>
         </a>
@@ -92,8 +96,19 @@
 
 </mdb-navbar>
 <!--/.Navbar-->
-<header style="background-image: url('http://127.0.0.1:8000/header/toji-no-miko-anime.jpg')" class="d-none d-md-block">
-  <div class="d-flex align-items-center justify-content-center h-100">
-    <h1 class="text-center text-primary"><strong>Votre site présentant les mangas et animes </strong></h1>
+<header style="{{this.imageHeaderSelected}} " class="d-none d-md-block">
+  <div class="h-100 row align-items-end justify-content-center">
+    <div class="text-header d-flex flex-column mb-5">
+      <h1 class="text-center myColorBlue mt-3" ><strong class="mx-2">Votre site présentant les mangas et animes </strong></h1>
+      <div class="d-flex justify-content-center mb-3">
+        <button mat-flat-button color="primary" class="mr-3"> Lecture en ligne </button>
+        <button mat-flat-button color="primary" [routerLink]="['manga']">Chercher un manga</button>
+      </div>
+
+    </div>
   </div>
+</header>
+<header class="d-md-none h-auto">
+
+  <br class="mt-5">
 </header>

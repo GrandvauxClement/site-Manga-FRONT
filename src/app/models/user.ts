@@ -2,7 +2,7 @@ export class User {
   id: number;
   email: string;
   password: string;
-  role: Array<any>;
+  roles: Array<any>;
   isActive: boolean;
   mangaLike: Array<any>;
   pseudo: string;
@@ -13,7 +13,7 @@ export class User {
     this.id = id;
     this.email = email;
     this.password = password;
-    this.role = role;
+    this.roles = role;
     this.isActive = isActive;
     this.mangaLike = mangaLike;
     this.pseudo = pseudo;

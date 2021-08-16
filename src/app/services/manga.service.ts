@@ -46,7 +46,7 @@ export class MangaService {
   }
 
   getScanByMangaId(idManga: number): Observable<Scan[]> {
-    return this.http.get<Scan[]>(this.apiUrl + '/scanByManga/' + idManga);
+    return this.http.get<Scan[]>(this.apiUrl + '/api/scanByManga/' + idManga);
   }
 
   getScanById(idScan: number): Observable<Scan> {
@@ -104,6 +104,28 @@ export class MangaService {
       }
     }
 
+  }
+  ChangeValueOfNoteOfManag(mangaId, note): Observable<any> {
+    return this.http.post(this.apiUrl + '/api/manga/changeNote', {
+      mangaId: mangaId,
+      note: note
+    });
+  }
+
+  getLastScanOrderByDateAjout(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + '/api/scan/getScanOrderByDateAjout');
+  }
+
+  addLikeForScan(scanId): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/api/scan/addLike/' + scanId, {});
+  }
+
+  removeLikeForScan(scanId): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/api/scan/removeLike/' + scanId, {});
+  }
+
+  getAllMangaWhoHaveScan(): Observable<any> {
+    return this.http.get(this.apiUrl + '/api/scan/getMangaWhoHaveScan');
   }
 
 
