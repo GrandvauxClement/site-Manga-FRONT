@@ -177,7 +177,6 @@ export class BibliothequeComponent implements OnInit {
     const data = this.dataSource.data.slice();
 
     if (!sort.active || sort.direction === '') {
-      console.log('je passe ici : ' + data);
       this.sortedData = data;
       return;
     }
@@ -196,18 +195,11 @@ export class BibliothequeComponent implements OnInit {
   }
 
   ChangeStatusManga(status, mangaId) {
-    console.log('Je passe dans status : ' + status);
-    this.userService.LibraryUserChangeMangaStatus(this.user.id, mangaId, status).subscribe((response => {
-      console.log(response);
-    }))
+    this.userService.LibraryUserChangeMangaStatus(this.user.id, mangaId, status);
   }
 
   ChangeNotePersoManga(notePerso, mangaId) {
-    console.log('notePerso :' + notePerso);
-    console.log('mangaId :' + mangaId);
-    this.userService.LibraryUserChangeMangaNotePerso(this.user.id, mangaId, notePerso).subscribe((response => {
-      console.log(response);
-    }))
+    this.userService.LibraryUserChangeMangaNotePerso(this.user.id, mangaId, notePerso)
   }
 
 }

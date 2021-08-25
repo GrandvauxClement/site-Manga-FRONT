@@ -58,9 +58,13 @@ export class ScanComponent implements OnInit {
       this.scan = newScan;
       this.countPage = 0;
       this.selected = newScan.numero;
-      this.userService.statsCountMangaRead(this.user.id, this.idScan).subscribe( then => {
+      if (this.user != null) {
+        this.userService.statsCountMangaRead(this.user.id, this.idScan).subscribe( then => {
+          this.router.navigate(['read-scan', this.idNextScan, this.manga.nameDirectoryOfScan, numeroScan]);
+        });
+      } else {
         this.router.navigate(['read-scan', this.idNextScan, this.manga.nameDirectoryOfScan, numeroScan]);
-      });
+      }
     })
   }
 }

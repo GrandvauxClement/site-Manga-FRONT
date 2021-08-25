@@ -1,18 +1,40 @@
-<footer class="container-fluid mt-3">
-  <div class="row  border-light border-bottom">
-    <div class="col-12 col-md-4">
-      <h3 class="text-white">MangaClypédie</h3>
-      <p class="text-light">Ce site à été réalisé par un fan de manga et de développement web.En combinant deux de mes passions j'espère pouvoir vous proposez un site attractif .</p>
+<footer class="mt-3">
+  <div class="container-fluid">
+    <div class="row justify-content-around border-light border-bottom pb-2">
+
+      <div class="col-12 col-md-5">
+        <h2 class="text-white text-center mt-2">Contacter Nous</h2>
+        <form class="d-flex flex-column" [formGroup]="formContactUs" >
+          <mat-form-field appearance="standard">
+            <mat-label>Votre Email</mat-label>
+            <input matInput formControlName="email" required class="text-white">
+            <mat-error *ngIf="formContactUs.get('email').hasError('email')">Veuillez saisir un email valide</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mt-2" appearance="standard">
+            <mat-label>Votre message</mat-label>
+            <textarea  matInput placeholder="Votre message ..." formControlName="message" class="text-white" required></textarea>
+          </mat-form-field>
+          <re-captcha (resolved)="resolved($event)" (error)="errored()" errorMode="handled"></re-captcha>
+          <button *ngIf="this.user == null" mat-raised-button class="btn-block myColorBlue mx-auto" style="max-width:250px" matTooltip="Connectez-vous pour envoyer un message" [matTooltipPosition]="'below'" matTooltipClass="tooltip-action">Envoyer</button>
+          <button *ngIf="this.user != null" mat-raised-button class="btn-block myColorBlue mx-auto" style="max-width:250px " (click)="submit()">Envoyer</button>
+        </form>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <img src="assets/image/thousandSunny.png" alt="le thousand sunny" class="img-fluid mt-2">
+      </div>
+
     </div>
-  </div>
-  <div class="row justify-content-between">
-    <h3>Logo Site</h3>
-    <ul class="d-flex text-white mt-2" style="list-style-type: none">
-      <li> About</li>
-      <li class="ml-3"> Write</li>
-      <li class="ml-3"> Help</li>
-      <li class="mx-3"> Legal</li>
-    </ul>
+    <div class="row justify-content-between mt-2 justify-content-between">
+
+      <p class="text-white">Mangathèque</p>
+      <ul class="d-flex text-white mt-2" style="list-style-type: none">
+        <li> About</li>
+        <li class="ml-3"> Write</li>
+        <li class="ml-3"> Help</li>
+        <li class="mx-3"> Legal</li>
+      </ul>
+    </div>
   </div>
 </footer>
 

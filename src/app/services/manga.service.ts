@@ -8,7 +8,8 @@ import {Scan} from '../models/scan';
   providedIn: 'root'
 })
 export class MangaService {
-  apiUrl = 'http://127.0.0.1:8000';
+ // apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = 'https://www.apiback.mangatheques.fr'
   httpOptions = {
     headers: new HttpHeaders( {
       'Content-Type': 'application/json'
@@ -65,7 +66,6 @@ export class MangaService {
   }
 
   getMangaByFilterBar(type, style, genre, letter): Observable<Manga[]> {
-    console.log('service : ' + type + style + genre);
     if (letter == null){
       if (type != null && style != null && genre != null) {
         return this.http.get<Manga[]>(this.apiUrl + '/api/mangas?type=' + type + '&style=' + style + '&genre=' + genre);

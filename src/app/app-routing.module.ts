@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'manga', component: MangaComponent},
   {path: 'lecture-home', component: LectureHomeComponent},
-  {path: 'manga-detail/:id', component: DetailMangaComponent},
+  {path: 'manga-detail/:id', component: DetailMangaComponent, runGuardsAndResolvers: 'always'},
   {path: 'read-scan/:id/:manga/:numero', component: ScanComponent},
   {path: 'forgot-password/:token', component: ForgotPasswordComponent},
   {path: 'maBibiliotheque', component: BibliothequeComponent, canActivate: [AuthenticatorGuardService]},
@@ -31,7 +31,8 @@ const routes: Routes = [
     CommonModule,
     BrowserModule,
     RouterModule.forRoot(routes, {
-     useHash: true
+     useHash: true,
+     onSameUrlNavigation: 'reload'
   })
   ],
   exports: [RouterModule]

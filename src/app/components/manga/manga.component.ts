@@ -43,10 +43,8 @@ export class MangaComponent implements OnInit {
 
     this.letterSelected = 'Aucun Tri';
     if ( this.user != null){
-      console.log('user : '+ this.user.id);
       this.userService.getUserLikeManga(this.user.id).subscribe((userLike) => {
         this.userLike = userLike;
-        console.log(userLike + 'userLike');
       })
       this.userService.getMangaInLibraryByUserId(this.user.id).subscribe((mangaLibrary => {
         this.mangaInLibrary = mangaLibrary;
@@ -55,7 +53,6 @@ export class MangaComponent implements OnInit {
     this.mangaService.getManga().subscribe((data) => {
       this.manga = data['hydra:member'];
       this.paginator = data['hydra:view'];
-      console.log(this.manga);
       this.mangaService.getAllGenreForFilterBar().subscribe( (genre => {
         this.filterGenre = genre;
         this.filterGenreSelected = genre[0];
@@ -74,7 +71,6 @@ export class MangaComponent implements OnInit {
         if (this.haveQueryParams){
           this.FilterBarSearch();
         }
-       console.log('queryParams :' + this.activatedRoute.snapshot.queryParamMap.get('genre'));
         this.isLoading = false ;
       }))
     })
@@ -91,8 +87,6 @@ export class MangaComponent implements OnInit {
   }
 
   FilterBarSearch() {
-    console.log('filterTypeSelected : ' + this.filterTypeSelected);
-    console.log('filterGenreSelected : ' + this.filterGenreSelected);
     if (this.filterTypeSelected === 'Tous Types') {
       this.type = null;
     } else {
@@ -109,7 +103,6 @@ export class MangaComponent implements OnInit {
       this.genre = this.filterGenreSelected;
     }
     this.mangaService.getMangaByFilterBar(this.type, this.style, this.genre, this.letter).subscribe((manga => {
-      console.log(manga);
       this.manga = manga['hydra:member'];
       this.paginator = manga['hydra:view'];
     }));
@@ -151,7 +144,6 @@ export class MangaComponent implements OnInit {
   }
 
   onClose(event: any){
-    console.log(event);
   }
 
   openDialog() {

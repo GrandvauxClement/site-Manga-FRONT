@@ -53,11 +53,11 @@
                   <mat-error *ngIf="formRegister.get('password').hasError('pattern')">Le mot de passe doit contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</mat-error>
                 </mat-form-field>
                 <mat-form-field class="d-block d-md-none">
-                  <input matInput type="password" placeholder="Mot de passe" formControlName="passwordConfirm" required>
+                  <input matInput type="password" placeholder="Confirmer mot de passe" formControlName="passwordConfirm" required>
                   <mat-error *ngIf="formRegister.get('passwordConfirm').errors && formRegister.get('passwordConfirm').errors.ConfirmPassword && formRegister.get('passwordConfirm') != null"> Le mot de passe et sa confirmation ne correspondent pas</mat-error>
                 </mat-form-field>
                 <mat-form-field class="d-none d-md-block" style="width: 20em">
-                  <input matInput type="password" placeholder="Mot de passe" formControlName="passwordConfirm" required>
+                  <input matInput type="password" placeholder="Confirmer Mot de passe" formControlName="passwordConfirm" required>
                   <mat-error *ngIf="formRegister.get('passwordConfirm').errors && formRegister.get('passwordConfirm').errors.ConfirmPassword && formRegister.get('passwordConfirm') != null"> Le mot de passe et sa confirmation ne correspondent pas</mat-error>
                 </mat-form-field>
 

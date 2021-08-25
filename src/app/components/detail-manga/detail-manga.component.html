@@ -10,7 +10,7 @@
   <h1 class="myColorBlue text-center font-weight-bold">{{manga.name}}</h1>
   <div class="row">
     <div class="col-md-4 col-12 d-flex justify-content-center">
-      <img src="http://127.0.0.1:8000/images/{{manga.image[0]}}" class="img-fluid w-100" alt="image présentation {{manga.name}}" style="max-width: 300px">
+      <img src="https://www.apiback.mangatheques.fr/public/images/{{manga.image[0]}}" class="img-fluid w-100" alt="image présentation {{manga.name}}" style="max-width: 300px">
     </div>
     <div class="col-md-8 col-12 d-flex align-items-center mt-2 mt-md-0">
       <table class="table">
@@ -83,8 +83,8 @@
     </ul>-->
     <mat-selection-list #shoes [multiple]="false">
       <mat-list-option *ngFor="let scanTitle of scan" [value]="scanTitle" [routerLink]="['/read-scan',scanTitle.id, manga.nameDirectoryOfScan, scanTitle.numero]" class="border-bottom mb-1 h-auto" style="min-height: 40px">
-        <div class="d-flex justify-content-between align-items-center">
-         <div class="ml-sm-2 d-flex align-items-center">
+        <div class="d-flex justify-content-between mt-2">
+         <div class="ml-sm-2">
            <h5>{{manga.name}} {{scanTitle.numero}} : {{scanTitle.titre}}</h5>
          </div>
            <div class="d-none d-md-block">

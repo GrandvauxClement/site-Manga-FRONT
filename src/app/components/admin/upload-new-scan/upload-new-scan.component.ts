@@ -19,9 +19,7 @@ export class UploadNewScanComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.tokenStorage.getUser();
     this.userService.getUserById(this.user.id).subscribe( then => {
-      console.log('ICI THEN: ' + then.roles);
       if (then.roles[0] != 'ROLE_ADMIN'){
-        console.log('role admin here' + then.roles[0]);
         this.route.navigate(['/home']);
       }
     })
@@ -30,11 +28,9 @@ export class UploadNewScanComponent implements OnInit {
   StartCrawlerForLastScan() {
     this.isLoading = true;
     this.adminService.CrawleruploadNewScan().subscribe(then => {
-      console.log('Crawler fini go read CSV');
       this.adminService.readCsvMangaInfoForUploadNewScan().subscribe( data => {
         this.isLoading = false;
       }, err=> {
-        console.log('je suis sans les erreur'+ err);
       })
     })
   }

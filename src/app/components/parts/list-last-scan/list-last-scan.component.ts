@@ -21,12 +21,7 @@ export class ListLastScanComponent implements OnInit {
   }
 
   addScanLike(idScan) {
-    console.log(this.scanLike+ ' : scanLike')
-    this.mangaService.addLikeForScan(idScan).subscribe( data => {
-      console.log(data + ' la data');
-      }
-
-    );
+    this.mangaService.addLikeForScan(idScan);
   }
 
   removeScanLike(idScan) {

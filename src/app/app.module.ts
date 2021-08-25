@@ -64,6 +64,16 @@ import { ListLastScanComponent } from './components/parts/list-last-scan/list-la
 import { HomeComponent } from './components/home/home.component';
 import { LectureHomeComponent } from './components/lecture-home/lecture-home.component';
 import { UploadNewScanComponent } from './components/admin/upload-new-scan/upload-new-scan.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {
+  RECAPTCHA_LANGUAGE,
+  RECAPTCHA_SETTINGS,
+  RECAPTCHA_V3_SITE_KEY,
+  RecaptchaSettings,
+  RecaptchaV3Module,
+  RecaptchaModule,
+  RecaptchaFormsModule
+} from "ng-recaptcha";
 
 registerLocaleData(localFr, 'fr');
 
@@ -141,12 +151,19 @@ export function getToken() {
       }}),
     MatFileUploadModule,
     RatingModule,
-    DragScrollModule
+    DragScrollModule,
+    RecaptchaV3Module,
+    RecaptchaModule,
+    RecaptchaFormsModule,
+    ScrollingModule
   ],
   providers: [
     AuthenticatorGuardService,
     authInterceptorProviders,
-    {provide: LOCALE_ID, useValue: "fr-FR"}
+    {provide: LOCALE_ID, useValue: "fr-FR"},
+    {provide: RECAPTCHA_V3_SITE_KEY, useValue: "6Ld82QwcAAAAABrM-jfqi9x9sg_oVOy3tU1A3xcl"},
+    {provide: RECAPTCHA_SETTINGS, useValue: { siteKey: "6Ld82QwcAAAAABrM-jfqi9x9sg_oVOy3tU1A3xcl"} as RecaptchaSettings},
+    {provide: RECAPTCHA_LANGUAGE, useValue: "fr"}
   ],
   bootstrap: [AppComponent]
 })

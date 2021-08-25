@@ -3,7 +3,7 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top h-10" style="height: 8vh!important;">
 
   <!-- Navbar brand -->
-  <mdb-navbar-brand><a class="navbar-brand" [routerLink]="['/home']">Mangaclypédie</a></mdb-navbar-brand>
+  <mdb-navbar-brand><a class="navbar-brand" [routerLink]="['/home']">Mangathèque</a></mdb-navbar-brand>
 
   <!-- Collapsible content -->
   <links>
@@ -72,16 +72,21 @@
               </li>
           </ul>-->
 
-      <div class="list-group search_suggestion marginLeftByScreen"  *ngIf="searchDataActive" >
-        <a href="#" *ngFor="let detailSearch of search" class="d-flex list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/manga-detail', detailSearch.id]">
-          <div class="d-flex">
-            <img src="http://127.0.0.1:8000/images/{{detailSearch.image[0]}}" class="img-fluid" alt="image manga">
-            <div class="d-flex flex-column justify-content-center mx-2">
-              <h2 class="mb-1 text-center">{{detailSearch.name}} <small class="d-none d-sm-inline">( {{detailSearch.type}} )</small></h2>
-              <p class="d-none d-sm-block">{{detailSearch.presentation.substring(0,115)}} [...]</p>
+      <div class="list-group search_suggestion marginLeftByScreen" *ngIf="searchDataActive">
+        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+          <div *cdkVirtualFor="let detailSearch of search" class="example-item">
+            <div class="d-flex list-group-item list-group-item-action flex-column align-items-start" (click)="RedirectToMangaSearch(detailSearch.id)" style="cursor: pointer">
+              <div class="d-flex">
+                <img src="http://127.0.0.1:8000/images/{{detailSearch.image[0]}}" class="img-fluid" alt="image manga">
+                <div class="d-flex flex-column justify-content-center mx-2">
+                  <h2 class="mb-1 text-center">{{detailSearch.name}} <small class="d-none d-md-inline">( {{detailSearch.type}} )</small></h2>
+                  <p class="d-none d-sm-block">{{detailSearch.presentation.substring(0,115)}} [...]</p>
+                </div>
+              </div>
+
             </div>
           </div>
-        </a>
+        </cdk-virtual-scroll-viewport>
       </div>
       <div class="list-group search_suggestion"  *ngIf="searchDataActive == false" >
         <a href="#" class="d-flex list-group-item list-group-item-action flex-column align-items-start">
@@ -96,8 +101,8 @@
 
 </mdb-navbar>
 <!--/.Navbar-->
-<header style="{{this.imageHeaderSelected}} " class="d-none d-md-block">
-  <div class="h-100 row align-items-end justify-content-center">
+<header style="{{this.imageHeaderSelected}} " class="d-none d-md-flex">
+  <div class="h-100 w-100 row align-items-end justify-content-center">
     <div class="text-header d-flex flex-column mb-5">
       <h1 class="text-center myColorBlue mt-3" ><strong class="mx-2">Votre site présentant les mangas et animes </strong></h1>
       <div class="d-flex justify-content-center mb-3">

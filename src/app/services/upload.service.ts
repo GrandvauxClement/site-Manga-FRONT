@@ -5,7 +5,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
   providedIn: 'root'
 })
 export class UploadService {
-  apiUrl = 'http://127.0.0.1:8000';
+  // apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = 'https://www.apiback.mangatheques.fr'
   httpOptions = {
     headers: new HttpHeaders( {
       'Content-Type': 'application/json'

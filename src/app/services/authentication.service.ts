@@ -7,7 +7,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  apiUrl = 'http://127.0.0.1:8000';
+ // apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = 'https://www.apiback.mangatheques.fr'
   httpOptions = {
     headers: new HttpHeaders( {
       'Content-Type': 'application/json'

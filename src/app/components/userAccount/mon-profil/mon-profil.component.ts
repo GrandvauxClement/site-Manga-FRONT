@@ -44,7 +44,6 @@ export class MonProfilComponent implements OnInit {
         this.numberOflike = then.like;
         this.numberOfMangaInLibrary = then.library;
         this.userService.getMangaInLibraryByUserIdForAccount(this.user.id).subscribe( data => {
-          console.log(data)
           this.mangaInBibliotheque = data;
           this.isLoading = false;
         })
@@ -66,7 +65,6 @@ export class MonProfilComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( result => {
-      console.log(`Dialog result: ${result}`);
       if (result != null) {
         this.imageAvatarChanged = result;
       }
@@ -113,7 +111,6 @@ export class UploadFiles implements OnInit {
     });
   }
   changeAvatarByDefaultImage(name) {
-    console.log(name);
     this.uploadService.changeAvatarByDefaultImage(this.data.user.id, name).subscribe(then => {
       this.dialogRef.close(name);
     })

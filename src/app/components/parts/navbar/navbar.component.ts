@@ -34,12 +34,15 @@ export class NavbarComponent implements OnInit {
   screenWidth: number = 60;
   dialogScreenAdepted: boolean = false;
   constructor(public dialog: MatDialog, private tokenStorage: TokenStorageService, private fb: FormBuilder,
-              private mangaService: MangaService, private eRef: ElementRef) {
+              private mangaService: MangaService, private eRef: ElementRef, private route: Router) {
     this.text = 'no clicks yet';
+    this.route.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
   }
 
   ngOnInit(): void {
-    this.imageHeaderSelected = 'background-image: url(http://127.0.0.1:8000/header/' + this.arrayImageHeader[Math.floor(Math.random() * 6)] + ')';
+    this.imageHeaderSelected = 'background-image: url(https://www.apiback.mangatheques.fr/public/header/' + this.arrayImageHeader[Math.floor(Math.random() * 6)] + ')';
     this.user = this.tokenStorage.getUser();
     this.isCollapsed = true;
     this.screenWidth = window.screen.width
@@ -55,7 +58,6 @@ export class NavbarComponent implements OnInit {
   clickout(event) {
     if ( this.eRef.nativeElement.contains(event.target)) {
       this.text = 'clicked inside';
-      console.log(this.isCollapsed + ' is collapsed');
     } else {
       this.text = 'clicked outside';
       this.search = null;
@@ -83,10 +85,8 @@ export class NavbarComponent implements OnInit {
   }
 
   searchBar() {
-    console.log(this.formSearch.value.search);
     if (this.formSearch.value.search.length > 2) {
       this.mangaService.searchBar(this.formSearch.value.search).subscribe( data => {
-        console.log(data);
         if (data == false){
           this.searchDataActive = false;
         } else {
@@ -96,6 +96,12 @@ export class NavbarComponent implements OnInit {
 
       })
     }
+  }
+
+  RedirectToMangaSearch(idManga) {
+    this.search = null;
+    this.searchDataActive = null;
+    this.route.navigate(['/manga-detail', idManga]);
   }
 
 }
@@ -145,9 +151,7 @@ export class LogInDialog implements OnInit {
   }
 
   login() {
-    console.log('hERE je suis here' + this.formLogIn.value.email + '  ' + this.formLogIn.value.password);
     this.authService.logIn(this.formLogIn.value.email, this.formLogIn.value.password).subscribe( then => {
-      console.log('after login ' + then);
       this.tokenStorage.saveToken(then.token);
       this.authService.saveUser(then.token).subscribe( dataUser => {
         this.tokenStorage.saveUser(dataUser);
@@ -156,7 +160,6 @@ export class LogInDialog implements OnInit {
       })
     },
       err => {
-      console.log('je passe dans error ' + err.error.message)
         this.tostr.error('Mauvais email / Mot de passe','Erreur', {
           disableTimeOut: true,
         });
@@ -164,9 +167,7 @@ export class LogInDialog implements OnInit {
   }
 
   register() {
-    console.log('Pret a me créer un compte' + this.formRegister.value);
     this.authService.register(this.formRegister.value.email, this.formRegister.value.password, this.formRegister.value.pseudo).subscribe( then => {
-      console.log(then);
       if (then.error){
         this.tostr.error(then.error,'Erreur', {
           disableTimeOut: true,
@@ -191,14 +192,12 @@ export class LogInDialog implements OnInit {
 
   forgetPassword(){
     this.authService.checkIfUserExistByEmail(this.formForgetPassword.value.email).subscribe( data => {
-      console.log('Response UserIfExist '+data);
       if (data == true){
         this.authService.forgetPassword(this.formForgetPassword.value.email).subscribe( then => {
           this.tostr.success('L\'Email a bien été envoyé','Réussite', {
             disableTimeOut: true,
           });
         }, err =>{
-          console.log(err);
           this.tostr.error('Cet email est associé a aucun compte','Erreur, Réessayer', {
             disableTimeOut: true,
           });
@@ -218,7 +217,6 @@ export class LogInDialog implements OnInit {
   isControlHasError(controlName: string, validationType: string): boolean {
 
     const control = this.formRegister.controls[controlName];
-    console.log(control);
     if (!control) {
       return false;
     }

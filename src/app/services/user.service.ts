@@ -8,7 +8,8 @@ import {User} from "../models/user";
 })
 export class UserService {
 
-  apiUrl = 'http://127.0.0.1:8000';
+  // apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = 'https://www.apiback.mangatheques.fr'
   httpOptions = {
     headers: new HttpHeaders( {
       'Content-Type': 'application/json'
@@ -92,6 +93,14 @@ export class UserService {
     return this.http.post(this.apiUrl + '/stats/countScanRead', {
       "userId": userId,
       "scanId": scanId
+    })
+  }
+
+  postMessageContactUs(userId, email, message): Observable<any> {
+    return this.http.post(this.apiUrl + '/api/messages', {
+      "user": 'api/users/' + userId,
+      "email": email,
+      "message": message
     })
   }
 

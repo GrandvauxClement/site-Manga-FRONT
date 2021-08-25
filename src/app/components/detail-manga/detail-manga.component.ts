@@ -22,10 +22,8 @@ export class DetailMangaComponent implements OnInit {
     this.idManga = +this.route.snapshot.paramMap.get('id');
     this.mangaService.getMangaById(this.idManga).subscribe((data) => {
       this.manga = data;
-      console.log(data);
       this.mangaService.getScanByMangaId(this.idManga).subscribe((data) => {
         this.scan = data;
-        console.log('je passe ici' + data);
         this.isLoading = false;
       })
     })
